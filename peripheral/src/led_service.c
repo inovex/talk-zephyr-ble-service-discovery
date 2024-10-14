@@ -10,7 +10,7 @@
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gatt.h>
 
-#include "services/led_service.h"
+#include "demo/bluetooth/services/led_service.h"
 
 static led_set_enabled_func set_enabled;
 static int current_state;

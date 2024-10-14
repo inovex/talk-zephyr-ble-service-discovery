@@ -14,7 +14,7 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(peripheral_main);
 
-#include "services/led_service.h"
+#include "demo/bluetooth/services/led_service.h"
 
 enum app_event {
 	APP_EVENT_CONNECTED = BIT(0),
