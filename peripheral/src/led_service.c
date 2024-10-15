@@ -10,6 +10,9 @@
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gatt.h>
 
+#include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(led_service);
+
 #include "demo/bluetooth/services/led_service.h"
 
 static led_set_enabled_func set_enabled;
@@ -21,6 +24,7 @@ static ssize_t read_led(struct bt_conn *conn, const struct bt_gatt_attr *attr, v
 	(void)conn;
 	(void)attr;
 	uint8_t state_byte = (uint8_t)current_state;
+	LOG_INF("LED state read, returning 0x%02" PRIx8, state_byte);
 	return bt_gatt_attr_read(conn, attr, buf, len, offset, &state_byte, sizeof(state_byte));
 }
 
@@ -35,10 +39,11 @@ static ssize_t write_led(struct bt_conn *conn, const struct bt_gatt_attr *attr, 
 	if (offset != 0u) {
 		return BT_GATT_ERR(BT_ATT_ERR_INVALID_OFFSET);
 	}
-	int new_state = ((const uint8_t *)buf)[0];
+	uint8_t new_state = ((const uint8_t *)buf)[0];
 	if ((new_state != 0x00) && (new_state != 0x01)) {
 		return BT_GATT_ERR(BT_ATT_ERR_VALUE_NOT_ALLOWED);
 	}
+	LOG_INF("LED state write 0x%02" PRIx8, new_state);
 	if (new_state != current_state) {
 		if (set_enabled) {
 			set_enabled(new_state);

@@ -10,6 +10,9 @@
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gatt.h>
 
+#include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(uptime_service);
+
 #include "demo/bluetooth/services/uptime_service.h"
 
 static ssize_t read_uptime(struct bt_conn *conn, const struct bt_gatt_attr *attr, void *buf,
@@ -18,6 +21,7 @@ static ssize_t read_uptime(struct bt_conn *conn, const struct bt_gatt_attr *attr
 	(void)conn;
 	(void)attr;
 	int64_t uptime = k_uptime_get();
+	LOG_INF("uptime read, returning %" PRIu64, uptime);
 	return bt_gatt_attr_read(conn, attr, buf, len, offset, &uptime, sizeof(uptime));
 }
 
