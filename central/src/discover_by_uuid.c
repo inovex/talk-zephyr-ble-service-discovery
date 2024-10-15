@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#ifdef CONFIG_DEMO_GATT_SD_BY_UUID
+
 #include "service_discovery.h"
 
 #include <zephyr/bluetooth/gatt.h>
@@ -96,3 +98,5 @@ void discover_services(struct bt_conn *conn, service_discovery_cb cb)
 	}
 	LOG_INF("service discovery done");
 }
+
+#endif /* CONFIG_DEMO_GATT_SD_BY_UUID */

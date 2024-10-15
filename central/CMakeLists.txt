@@ -10,6 +10,7 @@ project(central)
 target_sources(app PRIVATE
 	src/main.c
   src/discover_by_uuid.c
+  src/discover_all_services.c
   src/use_services.c
 )
 target_include_directories(app PRIVATE

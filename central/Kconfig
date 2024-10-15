@@ -1,0 +1,25 @@
+# Copyright (c) 2024 inovex GmbH
+# SPDX-License-Identifier: Apache-2.0
+
+mainmenu "Demo Application Configuration"
+source "Kconfig.zephyr"
+
+menu "GATT Options"
+
+choice DEMO_GATT_SD_SCHEMA
+	prompt "GATT service discovery schema"
+	default DEMO_GATT_SD_BY_UUID
+
+config DEMO_GATT_SD_BY_UUID
+	bool "discover by UUID"
+	help
+	  Discover services by their known UUIDs.
+
+config DEMO_GATT_SD_ITER_ALL
+	bool "iterate all services"
+	help
+	  Discover services by iterating all available services.
+
+endchoice # GATT service discovery schema
+
+endmenu # GATT Options
