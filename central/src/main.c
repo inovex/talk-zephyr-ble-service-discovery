@@ -12,6 +12,9 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(central_main);
 
+#include "service_discovery.h"
+#include "use_services.h"
+
 /* For now, the hard-coded peripheral address E3:27:C3:70:1D:F6 is used */
 static const bt_addr_le_t peripheral_addr = {
 	.type = BT_ADDR_LE_RANDOM,
@@ -19,6 +22,17 @@ static const bt_addr_le_t peripheral_addr = {
 };
 
 static int start_scanning(void);
+
+static void on_services_discovered(struct bt_conn *conn, int success,
+				   struct service_handles *handles)
+{
+	if (success) {
+		LOG_INF("services discovered");
+		use_services(conn, handles);
+	} else {
+		LOG_ERR("service discovery failed");
+	}
+}
 
 static void on_connected(struct bt_conn *conn, uint8_t err)
 {
@@ -28,6 +42,7 @@ static void on_connected(struct bt_conn *conn, uint8_t err)
 		start_scanning();
 		return;
 	}
+	discover_services(conn, on_services_discovered);
 }
 
 static void on_disconnected(struct bt_conn *conn, uint8_t err)

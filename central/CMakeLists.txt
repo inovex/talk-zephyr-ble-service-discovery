@@ -9,7 +9,9 @@ project(central)
 
 target_sources(app PRIVATE
 	src/main.c
+  src/discover_by_uuid.c
+  src/use_services.c
 )
 target_include_directories(app PRIVATE
-	"${CMAKE_CURRENT_LIST_DIR}/../lib/include"
+	"${CMAKE_CURRENT_LIST_DIR}/../include"
 )
